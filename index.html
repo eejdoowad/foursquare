@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Four corners</title>
+    <style type="text/css">
+        #main {
+            z-index: 1;
+        }
+        #tl {
+            position: absolute;
+            left: 0%;
+            top: 0%;
+            width: 50%;
+            height: 50%;
+            background-color: orange;
+        }
+        #tr {
+            position: absolute;
+            left: 50%;
+            top: 0%;
+            width: 50%;
+            height: 50%;
+            background-color: green;   
+        }
+        #bl {
+            position: absolute;
+            left: 0%;
+            top: 50%;
+            width: 50%;
+            height: 50%;
+            background-color: blue;
+        }
+        #br {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 50%;
+            height: 50%;
+            background-color: yellow;
+        }
+        #menutri {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            width: 0; 
+            height: 0; 
+            border-left: 5em solid;
+            border-right: 5em solid;
+            border-top: 5em solid #ffffff;
+            opacity: 0.1;
+            z-index: 2;
+        }
+        #overlay {
+            position: absolute;
+            top: 25%;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            z-index: 3;
+        }
+        .sel {
+            position: absolute;
+            width: 12.5%;
+            height: 100%;
+            background-color: white;
+            z-index: 4;
+        }
+        #s0 {
+            top: 0%;
+            left: 0%;
+            opacity: 0.8;
+            z-index: 4;
+
+        }
+        #s1 {
+            top: 0%;
+            left: 12.5%;
+            opacity: 0.7;
+        }
+        #s2 {
+            top: 0%;
+            left: 25%;
+            opacity: 0.6;
+        }
+        #s3 {
+            top: 0%;
+            left: 37.5%;
+            opacity: 0.5;
+        }
+        #s4 {
+            top: 0%;
+            left: 50%;
+            opacity: 0.4;
+        }
+        #s5 {
+            top: 0%;
+            left: 62.5%;
+            opacity: 0.3;
+        }
+        #s6 {
+            top: 0%;
+            left: 75%;
+            opacity: 0.2;
+        }
+        #s7 {
+            top: 0%;
+            left: 87.5%;
+            opacity: 0.1;
+        }
+        #selected {
+            z-index: 5;
+            background-color: red;
+        }
+        #warningContainer {
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+        }
+        #warning {
+            position: absolute;
+            top: 25%;
+            left: 0%;
+            width: 100%;
+            height: 50%;
+            border-top: 25% solid #000;
+            background-color: red;
+            z-index: 10;
+            text-align: center;
+        }
+
+        h1 {
+            font: 200px sans-serif;
+            color: white;
+            margin-top: 0;
+            margin-bottom: 0;
+            border-top: 0;
+            border-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        p {
+            font: 20px sans-serif;
+            color: white;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+    </style>
+    <script type="text/javascript">
+        window.onload = function() {
+
+            function setColor(elem, col) {
+                document.getElementById(elem).style.backgroundColor = col;
+            }
+
+            function setRandomColorCallback(elem) {
+                return function() {
+                    setColor(elem, getRandomColor());
+                }
+            }
+
+            /* random coler function ripped form github */
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF'.split('');
+                var color = '#';
+                for (var i = 0; i < 6; i++ ) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+
+            var squares = ["tl", "tr", "bl", "br"];
+            for (var i = 0; i < squares.length; i++) {
+                document.getElementById(squares[i]).onclick = setRandomColorCallback(squares[i]);
+                document.getElementById(squares[i]).onmouseover = setRandomColorCallback(squares[i]);
+                setColor(squares[i], getRandomColor());
+            }
+
+            overlay.style.display = "none";
+            /*Menu Triangle*/
+            document.getElementById("menutri").onclick = function() {
+                var overlay = document.getElementById("overlay");
+                if (overlay.style.display === "none") {
+                    setColor("overlay", getRandomColor());
+                    overlay.style.display = "block";
+                } else {
+                    overlay.style.display = "none";
+                }
+            }
+
+            document.getElementById("menutri").onmouseover = function() {
+                document.getElementById ("menutri").style.opacity = "0.4";
+            }
+            document.getElementById("menutri").onmouseout = function() {
+                document.getElementById ("menutri").style.opacity = "0.1";
+            }
+
+            /* click on overlay */
+            document.getElementById("overlay").onclick = function() {
+                setColor("overlay", getRandomColor());
+            }
+
+            
+
+            function makeRandSquareRandCol() {
+                setColor(squares[Math.floor(Math.random() * 4)], getRandomColor());
+            }
+            var timer = setInterval(makeRandSquareRandCol, 1000);
+            var active = 0;
+            function onSClickCallback(elem) {
+                return function() {
+                    setColor("s" + active, "white");
+                    document.getElementById("s" + active).style.opacity = 0.8 - 0.1 * active;
+                    setColor("s" + elem, getRandomColor());
+                    document.getElementById("s" + elem).style.opacity = 0;
+                    active = elem;
+                    
+                    clearInterval(timer);
+                    if (elem > 0) {
+                        timer = setInterval(makeRandSquareRandCol, 1000 / (1 << (elem - 1)));
+                    }
+
+                }
+            }
+
+            for (var i = 0; i < 8; i++) {
+                document.getElementById("s" + i).onclick = onSClickCallback(i);
+            }
+            document.getElementById("s0").onclick();
+
+            
+            
+
+
+        }
+    </script>
+</head>
+<body>
+
+    <div id="main">
+        <div id="tl"></div>
+        <div id="tr"></div>
+        <div id="bl"></div>
+        <div id="br"></div>
+    </div>
+
+    <div id="menutri"></div>
+
+    <div id="overlay">
+        <div class="sel" id="s0"></div>
+        <div class="sel" id="s1"></div>
+        <div class="sel" id="s2"></div>
+        <div class="sel" id="s3"></div>
+        <div class="sel" id="s4"></div>
+        <div class="sel" id="s5"></div>
+        <div class="sel" id="s6"></div>
+        <div class="sel" id="s7"></div>
+    </div>
+
+    <div id="warningContainer">
+        <div id="warning">
+            <h1> WARNING </h1>
+            <p> This webpage contains rapidly flashing images. </p>
+            <div id="ok">
+                I understand and wish to continue.
+            </div>
+            <div id="notok">
+                Take me to safety.
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
