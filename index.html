@@ -122,21 +122,22 @@
             width: 100%;
             height: 100%;
             opacity: 1;
+            z-index: 9;
         }
         #warning {
             position: absolute;
-            top: 25%;
+            top: 50%;
             left: 0%;
             width: 100%;
-            height: 50%;
             border-top: 25% solid #000;
             background-color: red;
             z-index: 10;
             text-align: center;
+            transform: translateY(-50%);
         }
 
         h1 {
-            font: 200px sans-serif;
+            font: 5em sans-serif;
             color: white;
             margin-top: 0;
             margin-bottom: 0;
@@ -146,10 +147,22 @@
             padding-bottom: 0;
         }
         p {
-            font: 20px sans-serif;
+            font: 1.15em sans-serif;
             color: white;
             margin-top: 0;
             margin-bottom: 0;
+        }
+        button {
+            font: 1em sans-serif;
+            color: green;
+            background-color: white;
+/*            margin-top: 0;
+            margin-bottom: 0;
+*/            padding: 1em;
+            border: none;
+            width: 18em;
+            margin-top: 1em;
+            margin-bottom: 1em;
         }
 
     </style>
@@ -235,7 +248,19 @@
             }
             document.getElementById("s0").onclick();
 
-            
+            /*Button opacity effect */
+            document.getElementById("okButton").onmouseover = function() {
+                document.getElementById ("okButton").style.opacity = "0.8";
+            }
+            document.getElementById("okButton").onmouseout = function() {
+                document.getElementById ("okButton").style.opacity = "1";
+            }
+            document.getElementById("noButton").onmouseover = function() {
+                document.getElementById ("noButton").style.opacity = "0.8";
+            }
+            document.getElementById("noButton").onmouseout = function() {
+                document.getElementById ("noButton").style.opacity = "1";
+            }
             
 
 
@@ -266,14 +291,11 @@
 
     <div id="warningContainer">
         <div id="warning">
-            <h1> WARNING </h1>
-            <p> This webpage contains rapidly flashing images. </p>
-            <div id="ok">
-                I understand and wish to continue.
-            </div>
-            <div id="notok">
-                Take me to safety.
-            </div>
+            <h1>WARNING</h1>
+            <p>This webpage contains rapidly flashing images</p>
+            <a href="http://www.dawoodjee.com"><button id="okButton" style="background-color:lime;color:white;">Take me to safety</button></a>
+            <button id="noButton" style="color:red;" onclick="document.getElementById('warningContainer').style.display = 'none'">I understand and wish to continue</button>
+           
         </div>
     </div>
 
