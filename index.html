@@ -4,6 +4,13 @@
 <head>
     <title>Four corners</title>
     <style type="text/css">
+        .square {
+            transition: background-color 0.5s ease-in-out, width 0.3s ease-in-out;
+            display: block;
+        }
+        .square:hover {
+            width: 100px !important;
+        }
         #main {
             z-index: 1;
         }
@@ -21,7 +28,7 @@
             top: 0%;
             width: 50%;
             height: 50%;
-            background-color: green;   
+            background-color: green;
         }
         #bl {
             position: absolute;
@@ -46,8 +53,8 @@
             right: 0;
             margin-left: auto;
             margin-right: auto;
-            width: 0; 
-            height: 0; 
+            width: 0;
+            height: 0;
             border-left: 5em solid;
             border-right: 5em solid;
             border-top: 5em solid #ffffff;
@@ -164,7 +171,6 @@
             margin-top: 1em;
             margin-bottom: 1em;
         }
-
     </style>
     <script type="text/javascript">
         window.onload = function() {
@@ -179,14 +185,21 @@
                 }
             }
 
-            /* random coler function ripped form github */
             function getRandomColor() {
-                var letters = '0123456789ABCDEF'.split('');
-                var color = '#';
-                for (var i = 0; i < 6; i++ ) {
-                    color += letters[Math.floor(Math.random() * 16)];
-                }
-                return color;
+                var red =  Math.floor(Math.random() * 255),
+                    green = Math.floor(Math.random() * 255),
+                    blue =  Math.floor(Math.random() * 255),
+                    rgb = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
+
+                var hue = Math.floor(Math.random() * 360) ,
+                    saturation = Math.floor(Math.random() * 100) + '%',
+                    lightness = (Math.floor(Math.random() * 20) + 60) + '%',
+                    alpha = 1,
+                    hsla = 'hsla(' + hue + ', '+ saturation + ', ' + lightness + ', ' + alpha + ')';
+
+                console.log(hsla);
+
+                return hsla;
             }
 
             var squares = ["tl", "tr", "bl", "br"];
@@ -220,7 +233,7 @@
                 setColor("overlay", getRandomColor());
             }
 
-            
+
 
             function makeRandSquareRandCol() {
                 setColor(squares[Math.floor(Math.random() * 4)], getRandomColor());
@@ -234,7 +247,7 @@
                     setColor("s" + elem, getRandomColor());
                     document.getElementById("s" + elem).style.opacity = 0;
                     active = elem;
-                    
+
                     clearInterval(timer);
                     if (elem > 0) {
                         timer = setInterval(makeRandSquareRandCol, 1000 / (1 << (elem - 1)));
@@ -261,7 +274,7 @@
             document.getElementById("noButton").onmouseout = function() {
                 document.getElementById ("noButton").style.opacity = "1";
             }
-            
+
 
 
         }
@@ -270,10 +283,10 @@
 <body>
 
     <div id="main">
-        <div id="tl"></div>
-        <div id="tr"></div>
-        <div id="bl"></div>
-        <div id="br"></div>
+        <div id="tl" class="square"></div>
+        <div id="tr" class="square"></div>
+        <div id="bl" class="square"></div>
+        <div id="br" class="square"></div>
     </div>
 
     <div id="menutri"></div>
@@ -295,7 +308,7 @@
             <p>This webpage contains rapidly flashing images</p>
             <a href="http://www.dawoodjee.com"><button id="okButton" style="background-color:lime;color:white;">Take me to safety</button></a>
             <button id="noButton" style="color:red;" onclick="document.getElementById('warningContainer').style.display = 'none'">I understand and wish to continue</button>
-           
+
         </div>
     </div>
 
